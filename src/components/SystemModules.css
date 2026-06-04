@@ -1,0 +1,109 @@
+.modules__grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+}
+
+.module {
+  position: relative;
+  padding: 1.5rem 1.3rem 1.7rem;
+  border-radius: var(--radius);
+  background: var(--grad-panel);
+  border: 1px solid var(--line-soft);
+  overflow: hidden;
+  transition: transform var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+.module:hover {
+  transform: translateY(-8px);
+  border-color: rgba(var(--accent-rgb), 0.6);
+}
+
+.module__glow {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: radial-gradient(
+    120% 80% at 50% 0%,
+    rgba(var(--accent-rgb), 0.22),
+    transparent 70%
+  );
+  transition: opacity var(--dur) var(--ease-out);
+}
+.module:hover .module__glow {
+  opacity: 1;
+}
+
+.module__num {
+  position: absolute;
+  top: 1rem;
+  right: 1.1rem;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: var(--text-faint);
+}
+
+.module__icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 13px;
+  color: var(--accent);
+  background: rgba(var(--accent-rgb), 0.12);
+  border: 1px solid rgba(var(--accent-rgb), 0.3);
+  transition: box-shadow var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+.module:hover .module__icon {
+  box-shadow: 0 0 24px rgba(var(--accent-rgb), 0.55);
+  transform: scale(1.06);
+}
+
+.module__title {
+  position: relative;
+  margin-top: 1.1rem;
+  font-size: 1.02rem;
+  text-transform: uppercase;
+  color: var(--text-bright);
+  letter-spacing: 0.02em;
+}
+
+.module__desc {
+  position: relative;
+  margin-top: 0.55rem;
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  line-height: 1.45;
+}
+
+.module__bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0;
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--accent);
+  transition: width var(--dur) var(--ease-out);
+}
+.module:hover .module__bar {
+  width: 100%;
+}
+
+@media (max-width: 1080px) {
+  .modules__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 720px) {
+  .modules__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 460px) {
+  .modules__grid {
+    grid-template-columns: 1fr;
+  }
+}
