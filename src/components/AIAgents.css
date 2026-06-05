@@ -51,6 +51,23 @@
   opacity: 0.92;
 }
 
+.agents__dot {
+  filter: drop-shadow(0 0 5px #38bdf8);
+  animation: agentDotPulse 2.4s ease-in-out infinite;
+}
+.agents__dot--active {
+  animation-duration: 1.4s;
+}
+@keyframes agentDotPulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 .agents__list {
   display: flex;
   flex-direction: column;

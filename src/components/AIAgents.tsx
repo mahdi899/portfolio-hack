@@ -62,14 +62,13 @@ function NeuralHead({ active }: { active: boolean }) {
               opacity={active ? 0.5 : 0.25}
             />
           )}
-          <motion.circle
+          <circle
             cx={x}
             cy={y}
             r={2.4}
             fill="#7dd3fc"
-            animate={{ opacity: [0.3, 1, 0.3], r: [2, 3, 2] }}
-            transition={{ duration: 2 + i * 0.2, repeat: Infinity, ease: "easeInOut" }}
-            style={{ filter: "drop-shadow(0 0 5px #38bdf8)" }}
+            className={`agents__dot ${active ? "agents__dot--active" : ""}`}
+            style={{ animationDelay: `${i * 0.25}s` }}
           />
         </g>
       ))}

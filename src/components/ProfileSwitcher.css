@@ -1,14 +1,11 @@
 .profiles {
-  position: absolute;
-  top: 14px;
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
   z-index: var(--z-hud);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  pointer-events: auto;
+  width: 100%;
 }
 
 .profiles__label {
@@ -20,6 +17,8 @@
 
 .profiles__row {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 0.35rem;
   padding: 0.32rem;
   border-radius: 999px;

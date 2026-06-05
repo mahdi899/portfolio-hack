@@ -1,7 +1,7 @@
 .ghost {
   position: absolute;
-  left: 18px;
-  bottom: 64px;
+  left: 12px;
+  bottom: 52px;
   z-index: var(--z-hud);
   width: 210px;
   padding: 0.9rem 1rem;

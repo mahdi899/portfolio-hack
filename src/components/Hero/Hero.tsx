@@ -76,9 +76,10 @@ export function Hero() {
           <span className="hero__note mono">No templates. 100% custom.</span>
         </motion.div>
 
-        <div className="hero__stage" ref={stageRef}>
+        <div className="hero__visual">
           <ProfileSwitcher />
 
+          <div className="hero__stage glass" ref={stageRef}>
           <div className="hero__hud mono">
             <span className="hero__hud-dot" />
             {hudLabel}
@@ -107,6 +108,7 @@ export function Hero() {
             <span className="hero__status-value">
               <span className="live-dot" /> ALL SYSTEMS OPERATIONAL
             </span>
+          </div>
           </div>
         </div>
       </div>
