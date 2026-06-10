@@ -12,7 +12,104 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 380px;
+  min-height: 420px;
+  background: linear-gradient(
+    155deg,
+    rgba(10, 12, 24, 0.95) 0%,
+    rgba(6, 8, 18, 0.92) 55%,
+    rgba(14, 10, 32, 0.88) 100%
+  );
+}
+
+.agents__visual::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  background: linear-gradient(
+    108deg,
+    transparent 18%,
+    rgba(56, 189, 248, 0.035) 36%,
+    rgba(168, 85, 247, 0.065) 50%,
+    rgba(56, 189, 248, 0.035) 64%,
+    transparent 82%
+  );
+  background-size: 280% 100%;
+  background-position: 140% 0;
+  mix-blend-mode: screen;
+  opacity: 0;
+  animation: panelShimmer 9s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.agents__visual-fx {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse 78% 74% at 72% 56%,
+      rgba(168, 85, 247, 0.16) 0%,
+      rgba(56, 189, 248, 0.08) 38%,
+      transparent 72%
+    ),
+    radial-gradient(
+      ellipse 62% 56% at 100% 100%,
+      rgba(6, 8, 18, 0.7) 0%,
+      transparent 64%
+    ),
+    radial-gradient(
+      ellipse 50% 44% at 100% 16%,
+      rgba(6, 8, 18, 0.45) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 55% 50% at 90% 48%,
+      rgba(10, 12, 24, 0.38) 0%,
+      transparent 70%
+    );
+  animation: panelAmbientPulse 5.5s ease-in-out infinite;
+}
+
+@keyframes panelShimmer {
+  0%,
+  70% {
+    background-position: 140% 0;
+    opacity: 0;
+  }
+  78% {
+    opacity: 0.9;
+  }
+  100% {
+    background-position: -40% 0;
+    opacity: 0;
+  }
+}
+
+@keyframes panelAmbientPulse {
+  0%,
+  100% {
+    opacity: 0.82;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.agents__visual--active::before {
+  animation-duration: 5.5s;
+}
+
+.agents__visual--active .agents__visual-fx {
+  animation-duration: 3.2s;
+  opacity: 1;
+}
+
+.agents__visual--active .agents__head {
+  opacity: 0.96;
 }
 
 .agents__visual-head {
@@ -24,9 +121,21 @@
 }
 .agents__head-copy {
   margin-bottom: 0;
+  max-width: 58%;
+}
+.agents__head-copy .kicker {
+  color: var(--neon-purple-soft);
+}
+.agents__head-copy .kicker::before {
+  background: linear-gradient(90deg, var(--neon-purple), transparent);
 }
 .agents__head-copy .section-title {
   font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  line-height: 1.05;
+}
+.agents__head-copy .section-sub {
+  font-size: 0.88rem;
+  max-width: 34ch;
 }
 
 .agents__live {
@@ -43,82 +152,66 @@
 }
 
 .agents__head {
+  --head-right: 1.35rem;
+  --head-bottom: 1.15rem;
+  --head-size: min(500px, 66%);
+
   position: absolute;
-  right: -10px;
-  bottom: -20px;
-  width: 320px;
+  right: var(--head-right);
+  bottom: var(--head-bottom);
+  width: var(--head-size);
   height: auto;
-  opacity: 0.92;
-  z-index: 1;
-}
-
-/* holographic data streams flowing toward the neural head */
-.agents__streams {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
   z-index: 0;
-}
-.agents__stream {
-  position: absolute;
-  left: -10%;
-  top: calc(18% + var(--i) * 11%);
-  width: 60%;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(56, 189, 248, 0.55),
-    rgba(168, 85, 247, 0.5)
-  );
-  opacity: 0;
-  animation: streamFlow 3.6s linear infinite;
-  animation-delay: calc(var(--i) * 0.42s);
-}
-@keyframes streamFlow {
-  0% {
-    transform: translateX(-20%) scaleX(0.4);
-    opacity: 0;
-  }
-  20% {
-    opacity: 0.9;
-  }
-  80% {
-    opacity: 0.9;
-  }
-  100% {
-    transform: translateX(120%) scaleX(1);
-    opacity: 0;
-  }
+  pointer-events: none;
+  display: block;
+  mix-blend-mode: screen;
+  opacity: 0.9;
+  transition: opacity 0.5s var(--ease-out);
 }
 
-.agents__telemetry {
+.agents__stats {
   position: relative;
   z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  font-size: 0.52rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--text-faint);
+  gap: 0;
+  max-width: 52%;
 }
 
-.agents__dot {
-  filter: drop-shadow(0 0 5px #38bdf8);
-  animation: agentDotPulse 2.4s ease-in-out infinite;
+.agents__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding-block: 0.85rem;
 }
-.agents__dot--active {
-  animation-duration: 1.4s;
+
+.agents__stat-rule {
+  display: block;
+  width: 100%;
+  max-width: 180px;
+  height: 1px;
+  margin-bottom: 0.85rem;
+  background: linear-gradient(
+    90deg,
+    rgba(56, 189, 248, 0.55),
+    rgba(168, 85, 247, 0.35),
+    transparent
+  );
 }
-@keyframes agentDotPulse {
-  0%,
-  100% {
-    opacity: 0.35;
-  }
-  50% {
-    opacity: 1;
-  }
+
+.agents__stat-value {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.4vw, 1.85rem);
+  font-weight: 700;
+  color: var(--text-bright);
+  line-height: 1;
+}
+
+.agents__stat-label {
+  font-size: 0.52rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-faint);
 }
 
 .agents__list {
@@ -276,9 +369,27 @@
     grid-template-columns: 1fr;
   }
   .agents__visual {
-    min-height: 320px;
+    min-height: 360px;
+  }
+  .agents__head-copy {
+    max-width: 100%;
+  }
+  .agents__stats {
+    max-width: 100%;
+  }
+  .agents__head {
+    --head-right: 0.85rem;
+    --head-bottom: 0.75rem;
+    --head-size: min(340px, 74%);
   }
   .agent__status {
     display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .agents__visual::before,
+  .agents__visual-fx {
+    animation: none;
   }
 }

@@ -5,74 +5,23 @@ import { useInView } from "../hooks/useInView";
 import { Icon } from "./Icon";
 import "./AIAgents.css";
 
-function NeuralHead({ active }: { active: boolean }) {
-  const dots = [
-    [128, 70],
-    [150, 95],
-    [110, 110],
-    [140, 130],
-    [98, 150],
-    [132, 165],
-    [120, 90],
-    [160, 120],
-  ];
+const AGENT_STATS = [
+  { label: "Active Agents", value: "12" },
+  { label: "Tasks Completed", value: "48K" },
+  { label: "Success Rate", value: "97%" },
+] as const;
+
+const HEAD_IMG = "/assets/neural-head.png";
+
+function NeuralHead() {
   return (
-    <svg className="agents__head" viewBox="0 0 240 260" fill="none" aria-hidden="true">
-      <defs>
-        <linearGradient id="headStroke" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#a855f7" />
-          <stop offset="0.5" stopColor="#38bdf8" />
-          <stop offset="1" stopColor="#22e3a3" />
-        </linearGradient>
-        <radialGradient id="headGlow" cx="50%" cy="40%" r="60%">
-          <stop offset="0" stopColor="rgba(168,85,247,0.4)" />
-          <stop offset="1" stopColor="rgba(168,85,247,0)" />
-        </radialGradient>
-      </defs>
-
-      <circle cx="120" cy="120" r="100" fill="url(#headGlow)" />
-
-      {/* stylized profile */}
-      <path
-        d="M85 220c-6-26-22-34-30-58-12-36 6-86 50-98 46-13 92 16 96 64 2 26-10 40-12 58-1 10 6 14 6 24 0 8-8 10-8 10"
-        stroke="url(#headStroke)"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        opacity="0.85"
-      />
-      <path
-        d="M150 150c-10 4-20 4-30 0"
-        stroke="url(#headStroke)"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-        opacity="0.6"
-      />
-
-      {/* neural mesh */}
-      {dots.map(([x, y], i) => (
-        <g key={i}>
-          {i < dots.length - 1 && (
-            <line
-              x1={x}
-              y1={y}
-              x2={dots[i + 1][0]}
-              y2={dots[i + 1][1]}
-              stroke="url(#headStroke)"
-              strokeWidth="0.8"
-              opacity={active ? 0.5 : 0.25}
-            />
-          )}
-          <circle
-            cx={x}
-            cy={y}
-            r={2.4}
-            fill="#7dd3fc"
-            className={`agents__dot ${active ? "agents__dot--active" : ""}`}
-            style={{ animationDelay: `${i * 0.25}s` }}
-          />
-        </g>
-      ))}
-    </svg>
+    <img
+      className="agents__head"
+      src={HEAD_IMG}
+      alt=""
+      draggable={false}
+      aria-hidden="true"
+    />
   );
 }
 
@@ -84,30 +33,37 @@ export function AIAgents() {
     <section className="section agents">
       <div className="container agents__grid" ref={ref}>
         <motion.div
-          className="agents__visual glass"
+          className={`agents__visual glass${hovered !== null ? " agents__visual--active" : ""}`}
           initial={{ opacity: 0, x: -30 }}
           animate={inView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         >
+          <div className="agents__visual-fx" aria-hidden="true" />
           <div className="agents__visual-head">
             <div className="section-head agents__head-copy">
               <span className="kicker">Inside the machine</span>
-              <h2 className="section-title">AI Agents<br />At Work</h2>
-              <p className="section-sub">Hover to peek inside the system.</p>
+              <h2 className="section-title">
+                AI Agents
+                <br />
+                <span className="gradient-text">At Work</span>
+              </h2>
+              <p className="section-sub">
+                Autonomous agents resolving tasks around the clock.
+              </p>
             </div>
             <span className="agents__live mono">
               <span className="live-dot" /> LIVE
             </span>
           </div>
-          <div className="agents__streams" aria-hidden="true">
-            {Array.from({ length: 7 }).map((_, i) => (
-              <span key={i} className="agents__stream" style={{ ["--i" as string]: i }} />
+          <NeuralHead />
+          <div className="agents__stats">
+            {AGENT_STATS.map((stat, i) => (
+              <div key={stat.label} className="agents__stat">
+                {i > 0 && <span className="agents__stat-rule" aria-hidden="true" />}
+                <span className="agents__stat-value">{stat.value}</span>
+                <span className="agents__stat-label mono">{stat.label}</span>
+              </div>
             ))}
-          </div>
-          <NeuralHead active={hovered !== null} />
-          <div className="agents__telemetry mono" aria-hidden="true">
-            <span>NEURAL THROUGHPUT // 1.2M ops/s</span>
-            <span>LATENCY // 12ms</span>
           </div>
         </motion.div>
 
