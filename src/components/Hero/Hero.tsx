@@ -80,6 +80,14 @@ export function Hero() {
           <ProfileSwitcher />
 
           <div className="hero__stage glass" ref={stageRef}>
+          <div className="hero__stage-frame" aria-hidden="true">
+            <span className="hero__tick hero__tick--tl" />
+            <span className="hero__tick hero__tick--tr" />
+            <span className="hero__tick hero__tick--bl" />
+            <span className="hero__tick hero__tick--br" />
+            <span className="hero__axis hero__axis--left mono">INPUTS // SOURCES</span>
+            <span className="hero__axis hero__axis--right mono">OUTPUT // REVENUE</span>
+          </div>
           <div className="hero__hud mono">
             <span className="hero__hud-dot" />
             {hudLabel}

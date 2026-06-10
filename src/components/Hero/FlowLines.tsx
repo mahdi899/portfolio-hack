@@ -107,16 +107,16 @@ export function FlowLines() {
         const dim = s.hasActive && !onPath;
         const rgb = ACCENT_RGB[node.accent];
 
-        const baseAlpha = (dim ? 0.06 : onPath ? 0.55 : 0.22) * bootReveal;
+        const baseAlpha = (dim ? 0.05 : onPath ? 0.62 : 0.24) * bootReveal;
         const pulse = s.reduced ? 0.85 : 0.7 + Math.sin(t * 0.05 + node.y) * 0.3;
 
         ctx.lineCap = "round";
-        ctx.lineWidth = onPath ? 2.4 : 1.1;
+        ctx.lineWidth = onPath ? 2.8 : 1.1;
         ctx.strokeStyle = `rgba(${rgb}, ${baseAlpha * pulse})`;
-        ctx.shadowBlur = onPath ? 14 : 0;
-        ctx.shadowColor = `rgba(${rgb}, ${onPath ? 0.8 : 0})`;
+        ctx.shadowBlur = onPath ? 20 : 0;
+        ctx.shadowColor = `rgba(${rgb}, ${onPath ? 0.9 : 0})`;
 
-        const speed = onPath ? 0.9 : 0.35;
+        const speed = onPath ? 1.4 : 0.35;
         ctx.setLineDash([4, 14]);
         ctx.lineDashOffset = -t * speed;
 
@@ -127,17 +127,22 @@ export function FlowLines() {
         ctx.setLineDash([]);
         ctx.shadowBlur = 0;
 
-        // traveling lead pulse on active-path lines
+        // traveling data pulses on active-path lines (accelerated, multiple)
         if (onPath && !s.reduced) {
-          const p = (t * 0.004 + node.y * 0.01) % 1;
-          const pt = quadPoint(sx, sy, cx, cy, ex, ey, p);
-          const grd = ctx.createRadialGradient(pt.x, pt.y, 0, pt.x, pt.y, 9);
-          grd.addColorStop(0, `rgba(${rgb}, 0.95)`);
-          grd.addColorStop(1, `rgba(${rgb}, 0)`);
-          ctx.fillStyle = grd;
-          ctx.beginPath();
-          ctx.arc(pt.x, pt.y, 9, 0, Math.PI * 2);
-          ctx.fill();
+          const PULSES = 3;
+          for (let k = 0; k < PULSES; k++) {
+            const p = (t * 0.007 + node.y * 0.01 + k / PULSES) % 1;
+            const pt = quadPoint(sx, sy, cx, cy, ex, ey, p);
+            const radius = 11 - k * 2.2;
+            const grd = ctx.createRadialGradient(pt.x, pt.y, 0, pt.x, pt.y, radius);
+            grd.addColorStop(0, `rgba(${rgb}, ${0.95 - k * 0.22})`);
+            grd.addColorStop(0.5, `rgba(${rgb}, ${0.4 - k * 0.1})`);
+            grd.addColorStop(1, `rgba(${rgb}, 0)`);
+            ctx.fillStyle = grd;
+            ctx.beginPath();
+            ctx.arc(pt.x, pt.y, radius, 0, Math.PI * 2);
+            ctx.fill();
+          }
         }
       }
     };

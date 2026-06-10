@@ -72,6 +72,18 @@
   box-shadow: 0 0 14px #fff, 0 0 28px var(--neon-blue);
   animation: journeyPulse 5s linear infinite;
 }
+.journey__pulse--2 {
+  animation-delay: 1.6s;
+  background: var(--neon-purple-soft);
+}
+.journey__pulse--3 {
+  animation-delay: 3.2s;
+  background: var(--neon-green-soft);
+}
+/* hovering any node sends energy racing through the whole chain */
+.journey__rail.is-waving .journey__pulse {
+  animation-duration: 1.8s;
+}
 @keyframes journeyPulse {
   0% {
     left: 0%;
@@ -136,6 +148,24 @@
   border-color: var(--accent);
   box-shadow: 0 0 28px rgba(var(--accent-rgb), 0.45),
     inset 0 0 20px rgba(var(--accent-rgb), 0.15);
+}
+
+/* staggered energy wave through every ring while a node is hovered */
+.journey__rail.is-waving .jstep__ring {
+  animation: journeyWave 1.5s ease-in-out infinite;
+  animation-delay: var(--wave-delay, 0s);
+}
+@keyframes journeyWave {
+  0%,
+  100% {
+    border-color: rgba(var(--accent-rgb), 0.35);
+    box-shadow: inset 0 0 20px rgba(var(--accent-rgb), 0.08);
+  }
+  50% {
+    border-color: var(--accent);
+    box-shadow: 0 0 26px rgba(var(--accent-rgb), 0.5),
+      inset 0 0 18px rgba(var(--accent-rgb), 0.18);
+  }
 }
 
 .jstep__icon {

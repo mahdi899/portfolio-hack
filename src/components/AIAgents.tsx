@@ -99,7 +99,16 @@ export function AIAgents() {
               <span className="live-dot" /> LIVE
             </span>
           </div>
+          <div className="agents__streams" aria-hidden="true">
+            {Array.from({ length: 7 }).map((_, i) => (
+              <span key={i} className="agents__stream" style={{ ["--i" as string]: i }} />
+            ))}
+          </div>
           <NeuralHead active={hovered !== null} />
+          <div className="agents__telemetry mono" aria-hidden="true">
+            <span>NEURAL THROUGHPUT // 1.2M ops/s</span>
+            <span>LATENCY // 12ms</span>
+          </div>
         </motion.div>
 
         <div className="agents__list">
@@ -115,7 +124,7 @@ export function AIAgents() {
               }
               initial={{ opacity: 0, x: 30 }}
               animate={inView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.15 + i * 0.12 }}
+              transition={{ duration: 0.5, delay: 0.12 + i * 0.09 }}
               onMouseEnter={() => setHovered(a.id)}
               onMouseLeave={() => setHovered(null)}
               onFocus={() => setHovered(a.id)}
@@ -123,14 +132,24 @@ export function AIAgents() {
             >
               <span className="agent__icon">
                 <Icon name={a.icon} size={20} />
+                <span className="agent__icon-ring" />
               </span>
               <span className="agent__body">
                 <span className="agent__name">{a.name}</span>
                 <span className="agent__role">{a.role}</span>
+                <span className="agent__activity" aria-hidden="true">
+                  <span
+                    className="agent__activity-fill"
+                    style={{ width: inView ? `${a.load}%` : "0%" }}
+                  />
+                </span>
               </span>
-              <span className="agent__status mono">
-                <span className="agent__status-dot" />
-                {a.status}
+              <span className="agent__meta">
+                <span className="agent__online mono">
+                  <span className="agent__online-dot" /> ONLINE
+                </span>
+                <span className="agent__status mono">{a.status}</span>
+                <span className="agent__load mono">{a.load}%</span>
               </span>
             </motion.button>
           ))}

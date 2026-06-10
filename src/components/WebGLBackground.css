@@ -1,0 +1,65 @@
+/* Fixed shell — all background layers stay inside, never above UI */
+.webgl-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  isolation: isolate;
+  background-color: #05060a;
+  background-color: var(--bg-void);
+}
+
+/* opaque base — guarantees dark even if canvases fail */
+.webgl-bg__base {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-color: #05060a;
+  background-color: var(--bg-void);
+}
+
+/* dark opaque WebGL — particles render on this, never white */
+.webgl-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.webgl-layer > div {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background-color: #05060a !important;
+}
+
+.webgl-stage {
+  position: absolute !important;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none;
+  display: block;
+  background-color: #05060a !important;
+}
+
+.webgl-stage canvas {
+  background-color: #05060a !important;
+}
+
+/* nebula wash on top of everything inside the shell */
+.webgl-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 80% at 18% 8%, rgba(124, 58, 237, 0.22), transparent 55%),
+    radial-gradient(110% 70% at 88% 22%, rgba(34, 211, 238, 0.18), transparent 55%),
+    radial-gradient(120% 90% at 60% 110%, rgba(16, 185, 129, 0.1), transparent 60%),
+    radial-gradient(150% 120% at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.8) 100%);
+}

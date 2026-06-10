@@ -63,6 +63,44 @@
   box-shadow: 0 0 14px rgba(168, 85, 247, 0.5);
 }
 
+/* data packets travelling left->right along the pipeline rail */
+.pipeline__line-packet {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 6px;
+  margin-top: -3px;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 0 12px #fff, 0 0 20px var(--neon-blue);
+  animation: packetFlow 2.6s linear infinite;
+}
+.pipeline__line-packet--2 {
+  animation-delay: 0.85s;
+  background: var(--neon-blue-soft);
+}
+.pipeline__line-packet--3 {
+  animation-delay: 1.7s;
+  background: var(--neon-green-soft);
+}
+@keyframes packetFlow {
+  0% {
+    left: 0;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
 .pipe {
   position: relative;
   display: flex;
@@ -75,10 +113,17 @@
   transition: opacity var(--dur-fast) var(--ease-out);
 }
 .pipe:not(.is-active) {
-  opacity: 0.72;
+  opacity: 0.6;
+}
+.pipe.is-near {
+  opacity: 0.88;
 }
 .pipe.is-active {
   opacity: 1;
+}
+.pipe.is-near .pipe__hex {
+  background: rgba(var(--accent-rgb), 0.32);
+  filter: drop-shadow(0 0 12px rgba(var(--accent-rgb), 0.4));
 }
 
 .pipe__arrow {

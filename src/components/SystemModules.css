@@ -2,21 +2,91 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1rem;
+  perspective: 1200px;
 }
 
 .module {
   position: relative;
   padding: 1.5rem 1.3rem 1.7rem;
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
   background: var(--grad-panel);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
   border: 1px solid var(--line-soft);
   overflow: hidden;
+  transform-style: preserve-3d;
+  transform: perspective(1200px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg))
+    translateZ(0);
   transition: transform var(--dur-fast) var(--ease-out),
-    border-color var(--dur-fast) var(--ease-out);
+    border-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+  animation: moduleFloat 7s ease-in-out infinite;
+  animation-delay: var(--float-delay, 0s);
 }
 .module:hover {
-  transform: translateY(-8px);
   border-color: rgba(var(--accent-rgb), 0.6);
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.45),
+    0 0 36px rgba(var(--accent-rgb), 0.28);
+  animation-play-state: paused;
+}
+
+@keyframes moduleFloat {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -8px;
+  }
+}
+
+/* cursor-tracked dynamic light */
+.module__light {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: radial-gradient(
+    circle at var(--mx, 50%) var(--my, 50%),
+    rgba(var(--accent-rgb), 0.28),
+    transparent 45%
+  );
+  transition: opacity var(--dur) var(--ease-out);
+  pointer-events: none;
+}
+.module:hover .module__light {
+  opacity: 1;
+}
+
+/* particle burst from the icon on hover */
+.module__burst {
+  position: absolute;
+  top: 2.6rem;
+  left: 2.4rem;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+.module__burst i {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+  opacity: 0;
+}
+.module:hover .module__burst i {
+  animation: moduleBurst 0.7s var(--ease-out) forwards;
+}
+@keyframes moduleBurst {
+  0% {
+    opacity: 1;
+    transform: rotate(var(--a)) translateX(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--a)) translateX(40px) scale(0.3);
+  }
 }
 
 .module__glow {

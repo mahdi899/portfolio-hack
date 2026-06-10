@@ -1,29 +1,38 @@
+/* Layers live inside .webgl-bg — never position:fixed (escapes stacking) */
 .bg-canvas {
-  position: fixed;
+  position: absolute !important;
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: var(--z-bg);
+  z-index: 2;
   pointer-events: none;
-  opacity: 0.85;
+  background-color: #05060a;
+  background-color: var(--bg-void);
 }
 
-/* faint moving grid behind the particles for "control room" depth */
+/* transparent nebula layer on top of dark WebGL */
+.bg-canvas--overlay {
+  background-color: transparent !important;
+}
+
 .bg-grid {
-  position: fixed;
+  position: absolute !important;
   inset: -2px;
-  z-index: var(--z-bg);
+  z-index: 3;
   pointer-events: none;
-  background-image: linear-gradient(rgba(120, 130, 200, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(120, 130, 200, 0.05) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: radial-gradient(circle at 50% 40%, black 0%, transparent 75%);
-  -webkit-mask-image: radial-gradient(circle at 50% 40%, black 0%, transparent 75%);
-  animation: gridDrift 30s linear infinite;
+  background-image:
+    linear-gradient(rgba(120, 130, 200, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120, 130, 200, 0.07) 1px, transparent 1px),
+    linear-gradient(rgba(168, 85, 247, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(168, 85, 247, 0.045) 1px, transparent 1px);
+  background-size: 64px 64px, 64px 64px, 16px 16px, 16px 16px;
+  mask-image: radial-gradient(ellipse 80% 65% at 50% 38%, black 0%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 65% at 50% 38%, black 0%, transparent 78%);
+  animation: gridDrift 40s linear infinite;
 }
 
 @keyframes gridDrift {
   to {
-    background-position: 64px 64px;
+    background-position: 64px 64px, 64px 64px, 16px 16px, 16px 16px;
   }
 }

@@ -199,6 +199,8 @@ export interface AgentDef {
   icon: string;
   accent: AccentKey;
   status: string;
+  /** processing load 0-100, drives the activity bar */
+  load: number;
 }
 
 export const AGENTS: AgentDef[] = [
@@ -209,14 +211,7 @@ export const AGENTS: AgentDef[] = [
     icon: "scan",
     accent: "purple",
     status: "scoring 24 leads",
-  },
-  {
-    id: "objection",
-    name: "Objection Handler",
-    role: "AI-powered responses",
-    icon: "shield",
-    accent: "blue",
-    status: "resolving 3 threads",
+    load: 78,
   },
   {
     id: "setter",
@@ -225,6 +220,7 @@ export const AGENTS: AgentDef[] = [
     icon: "calendar",
     accent: "green",
     status: "9 calls booked",
+    load: 64,
   },
   {
     id: "followup",
@@ -233,6 +229,34 @@ export const AGENTS: AgentDef[] = [
     icon: "loop",
     accent: "amber",
     status: "47 in nurture",
+    load: 52,
+  },
+  {
+    id: "crm",
+    name: "CRM Agent",
+    role: "Syncs every record",
+    icon: "headset",
+    accent: "blue",
+    status: "syncing pipeline",
+    load: 71,
+  },
+  {
+    id: "content",
+    name: "Content Agent",
+    role: "Creates & distributes",
+    icon: "spark",
+    accent: "pink",
+    status: "drafting 12 posts",
+    load: 43,
+  },
+  {
+    id: "revenue",
+    name: "Revenue Agent",
+    role: "Tracks every dollar",
+    icon: "chart",
+    accent: "green",
+    status: "tracking $48k",
+    load: 88,
   },
 ];
 

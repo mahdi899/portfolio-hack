@@ -8,7 +8,8 @@ import "./GrowthPipeline.css";
 export function GrowthPipeline() {
   const { ref, inView } = useInView<HTMLDivElement>({ threshold: 0.25 });
   const [activeId, setActiveId] = useState(PIPELINE[0].id);
-  const active = PIPELINE.find((s) => s.id === activeId) ?? PIPELINE[0];
+  const activeIndex = PIPELINE.findIndex((s) => s.id === activeId);
+  const active = PIPELINE[activeIndex] ?? PIPELINE[0];
 
   return (
     <section id="approach" className="section pipeline">
@@ -37,14 +38,22 @@ export function GrowthPipeline() {
                 animate={inView ? { scaleX: 1 } : {}}
                 transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
               />
+              {inView && (
+                <>
+                  <span className="pipeline__line-packet" />
+                  <span className="pipeline__line-packet pipeline__line-packet--2" />
+                  <span className="pipeline__line-packet pipeline__line-packet--3" />
+                </>
+              )}
             </div>
 
             {PIPELINE.map((step, i) => {
               const isActive = activeId === step.id;
+              const isNear = Math.abs(i - activeIndex) === 1;
               return (
                 <motion.div
                   key={step.id}
-                  className={`pipe ${isActive ? "is-active" : ""}`}
+                  className={`pipe ${isActive ? "is-active" : ""} ${isNear ? "is-near" : ""}`}
                   style={
                     {
                       "--accent": ACCENT_VAR[step.accent],

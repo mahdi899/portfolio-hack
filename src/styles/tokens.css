@@ -32,6 +32,27 @@
   --glow-blue: 0 0 30px rgba(56, 189, 248, 0.5);
   --glow-green: 0 0 30px rgba(34, 227, 163, 0.5);
 
+  /* Layered glow scale (used for hover elevation / focus states) */
+  --glow-1: 0 0 12px rgba(168, 85, 247, 0.3);
+  --glow-2: 0 0 24px rgba(168, 85, 247, 0.4), 0 0 48px rgba(56, 189, 248, 0.18);
+  --glow-3: 0 0 32px rgba(168, 85, 247, 0.55), 0 0 70px rgba(56, 189, 248, 0.3),
+    inset 0 0 22px rgba(168, 85, 247, 0.12);
+
+  /* Atmospheric fog / depth */
+  --fog-near: rgba(124, 58, 237, 0.16);
+  --fog-far: rgba(56, 189, 248, 0.1);
+  --depth-haze: radial-gradient(
+    120% 90% at 50% 30%,
+    rgba(124, 58, 237, 0.12),
+    transparent 60%
+  );
+
+  /* Glass / borders */
+  --glass-blur: 14px;
+  --glass-blur-strong: 22px;
+  --border-thin: 1px solid rgba(168, 85, 247, 0.28);
+  --border-neon: 1px solid rgba(168, 85, 247, 0.5);
+
   /* Gradients */
   --grad-core: radial-gradient(
     circle at 50% 50%,

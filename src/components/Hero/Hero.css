@@ -26,6 +26,7 @@
 .hero__content {
   position: relative;
   z-index: var(--z-fg);
+  isolation: isolate;
 }
 
 .hero__title {
@@ -97,6 +98,69 @@
   inset: 0;
 }
 
+/* ---------- command-center stage frame ---------- */
+.hero__stage-frame {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-hud);
+  pointer-events: none;
+}
+.hero__tick {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 1px solid rgba(56, 189, 248, 0.5);
+}
+.hero__tick--tl {
+  top: 10px;
+  left: 10px;
+  border-right: none;
+  border-bottom: none;
+}
+.hero__tick--tr {
+  top: 10px;
+  right: 10px;
+  border-left: none;
+  border-bottom: none;
+}
+.hero__tick--bl {
+  bottom: 10px;
+  left: 10px;
+  border-right: none;
+  border-top: none;
+}
+.hero__tick--br {
+  bottom: 10px;
+  right: 10px;
+  border-left: none;
+  border-top: none;
+}
+.hero__axis {
+  position: absolute;
+  top: 50%;
+  font-size: 0.5rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  white-space: nowrap;
+}
+.hero__axis--left {
+  left: 14px;
+  transform: rotate(180deg);
+  writing-mode: vertical-rl;
+  transform-origin: left;
+}
+.hero__axis--right {
+  right: -2px;
+  writing-mode: vertical-rl;
+  transform: translateY(-50%);
+}
+@media (max-width: 680px) {
+  .hero__axis {
+    display: none;
+  }
+}
+
 .hero__hud {
   position: absolute;
   top: 12px;
@@ -138,6 +202,24 @@
 }
 .core--on {
   opacity: 1;
+}
+
+/* volumetric 3D core fills a larger area of the stage */
+.core--3d {
+  width: clamp(300px, 36vw, 460px);
+  height: clamp(300px, 36vw, 460px);
+}
+.core3d-canvas {
+  position: absolute !important;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+}
+.core--3d .core__halo {
+  width: 50%;
+  height: 50%;
+  filter: blur(14px);
+  opacity: 0.7;
 }
 
 .core__halo {
@@ -286,6 +368,25 @@
   box-shadow: 0 0 34px rgba(var(--accent-rgb), 0.6),
     inset 0 0 16px rgba(var(--accent-rgb), 0.2);
   z-index: 5;
+}
+.node--active::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 16px;
+  border: 1px solid rgba(var(--accent-rgb), 0.6);
+  animation: nodePing 1.4s ease-out infinite;
+  pointer-events: none;
+}
+@keyframes nodePing {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.25);
+    opacity: 0;
+  }
 }
 
 .node--dim {

@@ -10,10 +10,14 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  background-color: #05060a;
+  background-color: var(--bg-void);
+  color-scheme: dark;
 }
 
 body {
-  background: var(--bg-void);
+  background-color: #05060a;
+  background-color: var(--bg-void);
   color: var(--text-primary);
   font-family: var(--font-body);
   font-size: 16px;
@@ -23,23 +27,26 @@ body {
   position: relative;
 }
 
-/* Persistent vignette + nebula wash over the whole document */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: var(--z-bg);
-  background:
-    radial-gradient(120% 80% at 18% 8%, rgba(124, 58, 237, 0.18), transparent 55%),
-    radial-gradient(110% 70% at 88% 22%, rgba(34, 211, 238, 0.14), transparent 55%),
-    radial-gradient(120% 90% at 60% 110%, rgba(16, 185, 129, 0.1), transparent 60%),
-    radial-gradient(150% 120% at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.85) 100%);
-}
-
 #root {
   position: relative;
-  z-index: var(--z-mid);
+  isolation: isolate;
+  min-height: 100vh;
+  background-color: transparent;
+}
+
+/* UI layer — always above .webgl-bg (z-index: 0) */
+.app-shell {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+  background: transparent;
+}
+
+.app-shell main,
+.app-shell .section {
+  position: relative;
+  z-index: 1;
+  background: transparent;
 }
 
 a {
@@ -121,16 +128,63 @@ h4 {
 }
 
 .glass {
-  background: var(--grad-panel);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: linear-gradient(
+    160deg,
+    rgba(13, 16, 28, 0.88) 0%,
+    rgba(7, 9, 18, 0.82) 100%
+  );
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
   border: 1px solid var(--line-soft);
   border-radius: var(--radius);
+}
+
+/* heavier panel for command-center surfaces with a thin neon edge */
+.glass-strong {
+  position: relative;
+  background: linear-gradient(
+    160deg,
+    rgba(13, 16, 28, 0.94) 0%,
+    rgba(7, 9, 18, 0.9) 100%
+  );
+  backdrop-filter: blur(var(--glass-blur-strong));
+  -webkit-backdrop-filter: blur(var(--glass-blur-strong));
+  border: var(--border-thin);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--glow-1), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* animated thin neon hairline that can run along any edge */
+.neon-edge {
+  position: relative;
+}
+.neon-edge::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    120deg,
+    rgba(168, 85, 247, 0.6),
+    rgba(56, 189, 248, 0.5),
+    rgba(34, 227, 163, 0.4)
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.5;
+  pointer-events: none;
+  transition: opacity var(--dur) var(--ease-out);
+}
+.neon-edge:hover::before {
+  opacity: 1;
 }
 
 .section {
   position: relative;
   padding-block: clamp(5rem, 11vh, 9rem);
+  background: transparent;
 }
 
 .section-head {

@@ -34,11 +34,80 @@
 /* ---------- scene ---------- */
 .architect__scene {
   position: relative;
-  height: 380px;
+  height: 440px;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  background: radial-gradient(circle at 50% 30%, #0d1124 0%, #05060a 75%);
+  background: radial-gradient(circle at 50% 28%, #0d1124 0%, #05060a 75%);
   border: 1px solid var(--line-soft);
+}
+
+/* volumetric backlight blooming behind the operator */
+.architect__backlight {
+  position: absolute;
+  left: 50%;
+  top: 18%;
+  width: 320px;
+  height: 320px;
+  transform: translateX(-50%);
+  background: radial-gradient(
+    circle,
+    rgba(124, 58, 237, 0.42) 0%,
+    rgba(56, 189, 248, 0.18) 38%,
+    transparent 70%
+  );
+  filter: blur(8px);
+  animation: archBacklight 6s ease-in-out infinite;
+}
+@keyframes archBacklight {
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.08);
+  }
+}
+
+/* scrolling data feed inside each display */
+.architect__screen-feed {
+  position: absolute;
+  inset: 3px;
+  border-radius: 3px;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(125, 211, 252, 0.5) 0px,
+    rgba(125, 211, 252, 0.5) 1px,
+    transparent 1px,
+    transparent 5px
+  );
+  opacity: 0.6;
+  animation: feedScroll 3s linear infinite;
+}
+@keyframes feedScroll {
+  to {
+    background-position: 0 -40px;
+  }
+}
+
+/* rim light tracing the silhouette edge */
+.architect__rim {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 150px;
+  height: 250px;
+  border-radius: 70px 70px 0 0 / 130px 130px 0 0;
+  background: linear-gradient(
+    180deg,
+    rgba(168, 85, 247, 0.7),
+    rgba(56, 189, 248, 0.35) 50%,
+    transparent
+  );
+  filter: blur(4px);
+  z-index: 1;
 }
 
 .architect__screens {
@@ -117,9 +186,38 @@
   transform: translateX(-50%);
   width: 130px;
   height: 230px;
-  background: #020308;
+  background: #010205;
   border-radius: 60px 60px 0 0 / 120px 120px 0 0;
   box-shadow: 0 0 60px rgba(168, 85, 247, 0.35);
+  z-index: 2;
+}
+
+/* drifting atmosphere along the floor */
+.architect__fog {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 120px;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    rgba(124, 58, 237, 0.22),
+    rgba(56, 189, 248, 0.06) 50%,
+    transparent
+  );
+  filter: blur(6px);
+  animation: archFog 8s ease-in-out infinite;
+}
+@keyframes archFog {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 .architect__figure::after {
   content: "";

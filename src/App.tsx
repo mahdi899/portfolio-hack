@@ -1,5 +1,8 @@
-import { Background } from "./components/Background";
+import { WebGLBackground } from "./components/WebGLBackground";
 import { Preloader } from "./components/Preloader";
+import { SystemHUD } from "./components/SystemHUD";
+import { SystemSpine } from "./components/SystemSpine";
+import { CursorField } from "./components/CursorField";
 import { Navbar } from "./components/Navbar";
 import { Hero } from "./components/Hero/Hero";
 import { GrowthPipeline } from "./components/GrowthPipeline";
@@ -14,20 +17,25 @@ import { CTAOverlay } from "./components/CTAOverlay";
 export default function App() {
   return (
     <>
-      <Background />
-      <Preloader />
-      <Navbar />
-      <main>
-        <Hero />
-        <GrowthPipeline />
-        <AIAgents />
-        <SystemModules />
-        <Architect />
-        <JourneyFlow />
-        <FinalCTA />
-      </main>
-      <Footer />
-      <CTAOverlay />
+      <WebGLBackground />
+      <div className="app-shell">
+        <CursorField />
+        <Preloader />
+        <SystemHUD />
+        <SystemSpine />
+        <Navbar />
+        <main>
+          <Hero />
+          <GrowthPipeline />
+          <AIAgents />
+          <SystemModules />
+          <JourneyFlow />
+          <Architect />
+          <FinalCTA />
+        </main>
+        <Footer />
+        <CTAOverlay />
+      </div>
     </>
   );
 }

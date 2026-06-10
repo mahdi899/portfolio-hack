@@ -26,7 +26,7 @@ export function JourneyFlow() {
             <span>ATTRACT → SCALE</span>
           </div>
 
-          <div className="journey__rail">
+          <div className={`journey__rail ${hovered !== null ? "is-waving" : ""}`}>
             <div className="journey__track" aria-hidden="true">
               <motion.span
                 className="journey__track-fill"
@@ -34,7 +34,13 @@ export function JourneyFlow() {
                 animate={inView ? { scaleX: 1 } : {}}
                 transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
               />
-              {inView && <span className="journey__pulse" />}
+              {inView && (
+                <>
+                  <span className="journey__pulse" />
+                  <span className="journey__pulse journey__pulse--2" />
+                  <span className="journey__pulse journey__pulse--3" />
+                </>
+              )}
             </div>
 
             {JOURNEY.map((step, i) => {
@@ -47,6 +53,7 @@ export function JourneyFlow() {
                     {
                       "--accent": ACCENT_VAR[step.accent],
                       "--accent-rgb": ACCENT_RGB[step.accent],
+                      "--wave-delay": `${i * 0.1}s`,
                     } as React.CSSProperties
                   }
                   initial={{ opacity: 0, y: 18 }}

@@ -34,12 +34,17 @@ export function Architect() {
           animate={inView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
         >
+          <div className="architect__backlight" aria-hidden="true" />
           <div className="architect__screens">
             {Array.from({ length: 6 }).map((_, i) => (
-              <span key={i} className={`architect__screen architect__screen--${i}`} />
+              <span key={i} className={`architect__screen architect__screen--${i}`}>
+                <span className="architect__screen-feed" />
+              </span>
             ))}
           </div>
+          <div className="architect__rim" aria-hidden="true" />
           <div className="architect__figure" />
+          <div className="architect__fog" aria-hidden="true" />
           <div className="architect__scanline" />
           <span className="architect__tag mono">THE MIND BEHIND THE MACHINE</span>
         </motion.div>
