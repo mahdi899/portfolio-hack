@@ -1,41 +1,60 @@
-import { WebGLBackground } from "./components/WebGLBackground";
-import { Preloader } from "./components/Preloader";
-import { SystemHUD } from "./components/SystemHUD";
-import { SystemSpine } from "./components/SystemSpine";
-import { CursorField } from "./components/CursorField";
-import { Navbar } from "./components/Navbar";
-import { Hero } from "./components/Hero/Hero";
-import { GrowthPipeline } from "./components/GrowthPipeline";
-import { AIAgents } from "./components/AIAgents";
-import { SystemModules } from "./components/SystemModules";
-import { Architect } from "./components/Architect";
-import { JourneyFlow } from "./components/JourneyFlow";
-import { FinalCTA } from "./components/FinalCTA";
-import { Footer } from "./components/Footer";
-import { CTAOverlay } from "./components/CTAOverlay";
+import { Suspense, useEffect, useRef } from "react";
+import { Canvas } from "@react-three/fiber";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Experience from "./journey/Experience";
+import Overlay from "./ui/Overlay";
+import AudioControl from "./ui/AudioControl";
+import GalaxyAudioDriver from "./audio/GalaxyAudioDriver";
+import { bindAudioUnlock } from "./audio/galaxyAudio";
+import { journey } from "./journey/store";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const cleanup = bindAudioUnlock();
+    return cleanup;
+  }, []);
+
+  useEffect(() => {
+    const st = ScrollTrigger.create({
+      trigger: scrollRef.current!,
+      start: "top top",
+      end: "bottom bottom",
+      onUpdate: (self) => {
+        journey.progress = self.progress;
+      },
+    });
+    return () => st.kill();
+  }, []);
+
   return (
     <>
-      <WebGLBackground />
-      <div className="app-shell">
-        <CursorField />
-        <Preloader />
-        <SystemHUD />
-        <SystemSpine />
-        <Navbar />
-        <main>
-          <Hero />
-          <GrowthPipeline />
-          <AIAgents />
-          <SystemModules />
-          <JourneyFlow />
-          <Architect />
-          <FinalCTA />
-        </main>
-        <Footer />
-        <CTAOverlay />
+      <div className="canvas-root">
+        <Canvas
+          dpr={[1, 1.75]}
+          camera={{ fov: 50, near: 0.1, far: 900, position: [0, 9, 110] }}
+          gl={{ antialias: false, powerPreference: "high-performance" }}
+          onCreated={({ gl }) => {
+            // keep native page scrolling alive on touch devices
+            gl.domElement.style.touchAction = "pan-y";
+          }}
+        >
+          <Suspense fallback={null}>
+            <Experience />
+          </Suspense>
+        </Canvas>
       </div>
+
+      <Overlay />
+      <AudioControl />
+      <GalaxyAudioDriver />
+
+      {/* invisible scroll runway — the journey is 800vh deep */}
+      <div ref={scrollRef} className="scroll-space" aria-hidden="true" />
     </>
   );
 }
