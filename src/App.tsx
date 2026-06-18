@@ -2,22 +2,14 @@ import { Suspense, useEffect, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Experience from "./journey/Experience";
-import Overlay from "./ui/Overlay";
-import AudioControl from "./ui/AudioControl";
-import GalaxyAudioDriver from "./audio/GalaxyAudioDriver";
-import { bindAudioUnlock } from "./audio/galaxyAudio";
-import { journey } from "./journey/store";
+import Experience from "./experience/Experience";
+import Overlay from "./overlay/Overlay";
+import { journey } from "./experience/store";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
   const scrollRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const cleanup = bindAudioUnlock();
-    return cleanup;
-  }, []);
 
   useEffect(() => {
     const st = ScrollTrigger.create({
@@ -36,10 +28,9 @@ export default function App() {
       <div className="canvas-root">
         <Canvas
           dpr={[1, 1.75]}
-          camera={{ fov: 50, near: 0.1, far: 900, position: [0, 9, 110] }}
+          camera={{ fov: 50, near: 0.1, far: 700, position: [0, 18, 86] }}
           gl={{ antialias: false, powerPreference: "high-performance" }}
           onCreated={({ gl }) => {
-            // keep native page scrolling alive on touch devices
             gl.domElement.style.touchAction = "pan-y";
           }}
         >
@@ -50,10 +41,8 @@ export default function App() {
       </div>
 
       <Overlay />
-      <AudioControl />
-      <GalaxyAudioDriver />
 
-      {/* invisible scroll runway — the journey is 800vh deep */}
+      {/* invisible scroll runway driving the journey */}
       <div ref={scrollRef} className="scroll-space" aria-hidden="true" />
     </>
   );
